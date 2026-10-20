@@ -9,13 +9,15 @@ package filmnow;
 public class FilmNow {
 
     private static final int TAMANHO = 100;
+    private static final int TAMANHO_HOT = 10;
 
     private String[] filmes; //uma representacao simploria da lista de filmes
-
+    private Filme[] hotList
     /**
      * Cria o FilmNow.
      */
     public FilmNow() {
+        this.hotList = new Filme[TAMANHO_HOT];
         this.filmes = new String[TAMANHO];
     }
 
@@ -33,7 +35,10 @@ public class FilmNow {
      * @return Dados do filme. Null se não há filme na posição.
      */
     public String getFilme(int posicao) {
-        return filmes[posicao];
+        if (posicao < 1 || posicao > TAMANHO || this.filmes[posicao-1] == null){
+            throw new ArrayIndexOutOfBoundsException("posicao invalida");
+        }
+        return this.filmes[posicao-1];
     }
 
     /**
