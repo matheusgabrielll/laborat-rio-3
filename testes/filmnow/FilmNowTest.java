@@ -29,6 +29,7 @@ public class FilmNowTest {
     @Test
     void testAdicionaEmPosicaoExistente() {
         this.fn.cadastraFilme(1, "Avatar", "2009", "Disney+");
+
         assertEquals("FILME ADICIONADO", this.fn.cadastraFilme(1, "20 dias em Mariupol", "2023", "Cinema"),
                 "Esperando FILME ADICIONADO");
         assertEquals(new Filme("20 dias em Mariupol", "2023", "Cinema"), this.fn.getFilmes()[0],
@@ -38,6 +39,7 @@ public class FilmNowTest {
     @Test
     void testAdicionaFilmeJaAdicionadoEmOutraPosicao() {
         this.fn.cadastraFilme(1, "Avatar", "2009", "Disney+");
+
         assertEquals("FILME JA ADICIONADO", this.fn.cadastraFilme(3, "Avatar", "2009", "Disney+"),
                 "Esperando FILME JA ADICIONADO");
         assertNull(this.fn.getFilmes()[2], "Esperando posição 3 vazia");
@@ -46,6 +48,7 @@ public class FilmNowTest {
     @Test
     void testAdicionaMesmoNomeEAnoComLocalDiferente() {
         this.fn.cadastraFilme(1, "Avatar", "2009", "Disney+");
+
         assertEquals("FILME JA ADICIONADO", this.fn.cadastraFilme(3, "Avatar", "2009", "Popcornflix"),
                 "Esperando FILME JA ADICIONADO");
         assertNull(this.fn.getFilmes()[2], "Esperando posição 3 vazia");
@@ -55,6 +58,7 @@ public class FilmNowTest {
     void testAdicionaNaPosicaoLimite100() {
         assertEquals("FILME ADICIONADO", this.fn.cadastraFilme(100, "Avatar", "2009", "Disney+"),
                 "Esperando FILME ADICIONADO");
+
         assertNotNull(this.fn.getFilmes()[99], "Esperando Avatar na posição 100");
     }
 
@@ -74,6 +78,7 @@ public class FilmNowTest {
     void testAdicionaComLocalVazio() {
         assertEquals("FILME INVALIDO", this.fn.cadastraFilme(1, "20 dias em Mariupol", "2023", ""),
                 "Esperando FILME INVALIDO");
+
         assertNull(this.fn.getFilmes()[0], "Esperando posição 1 vazia");
     }
 
@@ -81,6 +86,7 @@ public class FilmNowTest {
     void testAdicionaComAnoVazio() {
         assertEquals("FILME ADICIONADO", this.fn.cadastraFilme(1, "20 dias em Mariupol", "", "Cinema"),
                 "Esperando FILME ADICIONADO");
+
         assertNotNull(this.fn.getFilmes()[0], "Esperando filme na posição 1");
     }
 
@@ -88,6 +94,7 @@ public class FilmNowTest {
     void testAdicionaComNomeVazio() {
         assertEquals("FILME INVALIDO", this.fn.cadastraFilme(1, "", "2023", "Cinema"),
                 "Esperando FILME INVALIDO");
+
         assertNull(this.fn.getFilmes()[0], "Esperando posição 1 vazia");
     }
 
@@ -96,12 +103,15 @@ public class FilmNowTest {
     @Test
     void testDetalhaFilmeCompleto() {
         this.fn.cadastraFilme(1, "Avatar", "2009", "Disney+");
+
         assertEquals("Avatar, 2009\nDisney+", this.fn.detalhaFilme(1), "Esperando nome, ano e local");
     }
 
+    // professora, aqui tava dando erro, entao so cliquei e deixei do jeito que o proprio intellij pediu
     @Test
     void testDetalhaFilmeSemAno() {
         this.fn.cadastraFilme(1, "20 dias em Mariupol", "", "Cinema");
+
         assertEquals("20 dias em Mariupol, \nCinema", this.fn.detalhaFilme(1), "Esperando nome e local, sem ano");
     }
 
@@ -110,14 +120,14 @@ public class FilmNowTest {
         assertThrows(IllegalArgumentException.class, () -> this.fn.detalhaFilme(100),
                 "Esperando exceção para posição sem filme");
     }
-
+// tava com dificuldade em como fazer essa parte, entao fiz com consulta da ia
     @Test
     void testDetalhaAbaixoDoLimite0() {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
                 () -> this.fn.detalhaFilme(0), "Esperando exceção para posição 0");
         assertEquals("POSIÇÃO INVÁLIDA!", e.getMessage(), "Esperando mensagem de posição inválida");
     }
-
+    // tava com dificuldade em como fazer essa parte, entao fiz com consulta da ia
     @Test
     void testDetalhaAcimaDoLimite101() {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
