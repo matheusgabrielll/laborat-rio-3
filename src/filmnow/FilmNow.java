@@ -13,7 +13,7 @@ public class FilmNow {
     private static final int TAMANHO = 100;
     private static final int TAMANHO_HOT = 10;
 
-    private Filme[] filmes; //uma representacao simploria da lista de filmes
+    private Filme[] filmes;
     private Filme[] hotList;
     /**
      * Cria o FilmNow.

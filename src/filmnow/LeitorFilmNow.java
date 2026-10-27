@@ -36,7 +36,7 @@ public class LeitorFilmNow {
             while ((linha = br.readLine()) != null) {
                 carregados += 1;
                 if (carregados == 1) {
-                    // pulamos a primeira linha, o cabeçalho
+                    // pula a primeira linha, o cabeçalho
                     continue;
                 }
                 String[] campos = linha.split(",");

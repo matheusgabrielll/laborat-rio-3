@@ -24,9 +24,6 @@ public class MainFilmNow {
 
         System.out.println("Carregando filmes ...");
         try {
-            /*
-             * Essa é a maneira de lidar com possíveis erros por falta do arquivo.
-             */
             carregaFilmes("filmes_inicial.csv", fn);
         } catch (FileNotFoundException e) {
             System.err.println("Arquivo não encontrado: " + e.getMessage());
@@ -38,6 +35,7 @@ public class MainFilmNow {
         String escolha = "";
         while (true) {
             escolha = menu(scanner);
+
             comando(escolha, fn, scanner);
         }
 
@@ -225,7 +223,8 @@ public class MainFilmNow {
      * @param scanner Scanner para pedir informações do filme.
      */
     private static void adicionaFilme(FilmNow fn, Scanner scanner) {
-        int posicao = lerInteiro(scanner, "\nPosição> ");
+
+            int posicao = lerInteiro(scanner, "\nPosição> ");
         String nome = lerTexto(scanner, "Nome> ");
         String ano = lerTexto(scanner, "Ano> ");
         String local = lerTexto(scanner, "Local> ");

@@ -17,7 +17,7 @@ public class FilmNowTest {
         this.fn = new FilmNow();
     }
 
-    // ---------------- ADICIONAR FILME ----------------
+    //adicionar filme
 
     @Test
     void testAdicionaEmPosicaoVazia() {
@@ -98,7 +98,7 @@ public class FilmNowTest {
         assertNull(this.fn.getFilmes()[0], "Esperando posição 1 vazia");
     }
 
-    // ---------------- DETALHAR FILME ----------------
+    //detalhar filme
 
     @Test
     void testDetalhaFilmeCompleto() {
@@ -120,14 +120,14 @@ public class FilmNowTest {
         assertThrows(IllegalArgumentException.class, () -> this.fn.detalhaFilme(100),
                 "Esperando exceção para posição sem filme");
     }
-// tava com dificuldade em como fazer essa parte, entao fiz com consulta da ia
+// tava com dificuldade em como fazer essa parte, entao fiz com uma leve consulta da ia
     @Test
     void testDetalhaAbaixoDoLimite0() {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
                 () -> this.fn.detalhaFilme(0), "Esperando exceção para posição 0");
         assertEquals("POSIÇÃO INVÁLIDA!", e.getMessage(), "Esperando mensagem de posição inválida");
     }
-    // tava com dificuldade em como fazer essa parte, entao fiz com consulta da ia
+    // tava com dificuldade em como fazer essa parte, entao fiz com uma leve consulta da ia
     @Test
     void testDetalhaAcimaDoLimite101() {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class,

@@ -8,11 +8,12 @@ public class Filme {
 
     public Filme(String nome, String ano, String local){
 
+
         if (nome == null || ano == null || local == null){
             throw new NullPointerException("filme invalido");
         }
 
-        if(nome.trim().isEmpty() || local.trim().isEmpty()){
+        if(nome.isBlank() || local.trim().isEmpty()){
             throw new IllegalArgumentException("filme invalido");
         }
 
