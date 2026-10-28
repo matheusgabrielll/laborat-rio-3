@@ -1,7 +1,5 @@
 package filmnow;
 
-import java.nio.channels.FileLockInterruptionException;
-
 /**
  * Sistema que mantém os seus filmes prediletos. Podem existir 100 filmes.
  *
@@ -15,6 +13,7 @@ public class FilmNow {
 
     private Filme[] filmes;
     private Filme[] hotList;
+
     /**
      * Cria o FilmNow.
      */
@@ -29,18 +28,6 @@ public class FilmNow {
      */
     public Filme[] getFilmes() {
         return this.filmes.clone();
-    }
-
-    /**
-     * Acessa os dados de um filme específico.
-     * @param posicao Posição do filme no sistema.
-     * @return Dados do filme. Null se não há filme na posição.
-     */
-    public Filme getFilme(int posicao) {
-        if (posicao < 1 || posicao > TAMANHO || this.filmes[posicao-1] == null){
-            throw new ArrayIndexOutOfBoundsException("posicao invalida");
-        }
-        return this.filmes[posicao-1];
     }
 
     public Filme[] getHotList() {
@@ -69,7 +56,8 @@ public class FilmNow {
      * @param posicao Posição do filme.
      * @param nome Nome do filme.
      * @param ano Ano de lançamento do filme.
-     * @param local Local onde o filme pode ser assitido.
+     * @param local Local onde o filme pode ser assistido.
+     * @return A mensagem com o resultado da operação.
      */
     public String cadastraFilme(int posicao, String nome, String ano, String local) {
         if (!posicaoValida(posicao)) {
@@ -79,6 +67,7 @@ public class FilmNow {
         Filme novo;
         try {
             novo = new Filme(nome, ano, local);
+
         } catch (IllegalArgumentException | NullPointerException e) {
             return "FILME INVALIDO";
         }
@@ -91,32 +80,40 @@ public class FilmNow {
         this.filmes[posicao - 1] = novo;
         return "FILME ADICIONADO";
     }
+
     /**
      * Detalhes de um filme, com 🔥 se estiver na HotList.
-     * @throws IllegalArgumentException se não tiver filme na pqsição.
+     * @param posicao Posição do filme.
+     * @return Os detalhes do filme, texto vazio se não há filme na posição
+     *         ou a mensagem de erro se a posição for inválida.
      */
     public String detalhaFilme(int posicao){
-        if (!posicaoValida(posicao) || this.filmes[posicao-1] == null){
-            throw new IllegalArgumentException("POSIÇÃO INVÁLIDA!");
+        if (!posicaoValida(posicao)){
+            return "POSIÇÃO INVÁLIDA";
         }
         Filme f = this.filmes[posicao - 1];
+
+        if (f == null){
+            return "";
+        }
         if (estaNaHotList(f)){
             return "🔥 " + f.getDetalhes();
         }
         return f.getDetalhes();
     }
+
+
+
     public String adicionaHot(int posicaoFilme, int posicaoHot){
         if(!posicaoValida(posicaoFilme) || this.filmes[posicaoFilme - 1] == null){
             return "POSIÇÃO INVÁLIDA";
         }
         if (!posicaoHotValida(posicaoHot)){
             return "POSIÇÃO INVÁLIDA";
-
         }
         Filme f = this.filmes[posicaoFilme - 1];
         if(estaNaHotList(f)) {
             return "FILME JA ESTA NA HOTLIST";
-
         }
         this.hotList[posicaoHot - 1] = f;
         return "ADICIONADO À HOTLIST NA POSIÇÃO " + posicaoHot + "!";
@@ -131,4 +128,39 @@ public class FilmNow {
         return "";
     }
 
+    /**
+     * Adiciona um local onde o filme pode ser assistido.
+     * @param posicaoFilme Posição do filme.
+     * @param local Local a ser adicionado.
+     * @return A mensagem com o resultado da operação.
+     */
+    public String adicionaLocal(int posicaoFilme, String local){
+        if (!posicaoValida(posicaoFilme) || this.filmes[posicaoFilme - 1] == null){
+            return "POSIÇÃO INVÁLIDA";
+        }
+        try {
+            if (!this.filmes[posicaoFilme - 1].adicionaLocal(local)){
+                return "LIMITE DE LOCAIS ATINGIDO";
+            }
+        } catch (IllegalArgumentException | NullPointerException e) {
+            return "LOCAL INVALIDO";
+        }
+        return "LOCAL ADICIONADO";
+    }
+
+    /**
+     * Remove um local do filme. O filme sempre mantém pelo menos um local.
+     * @param posicaoFilme Posição do filme.
+     * @param local Local a ser removido.
+     * @return A mensagem com o resultado da operação.
+     */
+    public String removeLocal(int posicaoFilme, String local){
+        if (!posicaoValida(posicaoFilme) || this.filmes[posicaoFilme - 1] == null){
+            return "POSIÇÃO INVÁLIDA";
+        }
+        if (!this.filmes[posicaoFilme - 1].removeLocal(local)){
+            return "NAO FOI POSSIVEL REMOVER O LOCAL";
+        }
+        return "LOCAL REMOVIDO";
+    }
 }

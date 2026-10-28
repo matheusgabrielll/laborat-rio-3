@@ -23,16 +23,21 @@ public class MainFilmNow {
         FilmNow fn = new FilmNow();
 
         System.out.println("Carregando filmes ...");
+
         try {
             carregaFilmes("filmes_inicial.csv", fn);
+
         } catch (FileNotFoundException e) {
             System.err.println("Arquivo não encontrado: " + e.getMessage());
+
         } catch (IOException e) {
             System.err.println("Erro lendo arquivo: " + e.getMessage());
         }
 
         Scanner scanner = new Scanner(System.in);
+
         String escolha = "";
+
         while (true) {
             escolha = menu(scanner);
 
@@ -57,6 +62,8 @@ public class MainFilmNow {
                         "(E)Exibir HotList\n" +
                         "(H)Atribuir Hot\n" +
                         "(R)Remover Hot\n" +
+                        "(L)Adicionar local\n" +
+                        "(T)Remover local\n" +
                         "(S)Sair\n" +
                         "\n" +
                         "Opção> ");
@@ -89,6 +96,12 @@ public class MainFilmNow {
                 break;
             case "R":
                 removerHot(fn, scanner);
+                break;
+            case "L":
+                adicionaLocal(fn, scanner);
+                break;
+            case "T":
+                removeLocal(fn, scanner);
                 break;
             case "S":
                 sai();
@@ -125,6 +138,7 @@ public class MainFilmNow {
      */
     private static String lerTexto(Scanner scanner, String prompt) {
         System.out.print(prompt);
+
         return scanner.nextLine();
     }
 
@@ -135,6 +149,7 @@ public class MainFilmNow {
      */
     private static void mostrarFilmes(FilmNow fn) {
         System.out.println();
+
         Filme[] filmes = fn.getFilmes();
 
         for (int i = 0; i < filmes.length; i++) {
@@ -153,12 +168,7 @@ public class MainFilmNow {
     private static void detalharFilme(FilmNow fn, Scanner scanner) {
         int posicao = lerInteiro(scanner, "\nFilme> ");
 
-        try {
-            System.out.println("\n" + fn.detalhaFilme(posicao));
-
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
+        System.out.println("\n" + fn.detalhaFilme(posicao));
     }
 
     /**
@@ -206,6 +216,32 @@ public class MainFilmNow {
     }
 
     /**
+     * Adiciona um local a um filme.
+     *
+     * @param fn      O sistema FilmNow a ser manipulado.
+     * @param scanner Scanner para capturar o filme e o local.
+     */
+    private static void adicionaLocal(FilmNow fn, Scanner scanner) {
+        int filme = lerInteiro(scanner, "\nFilme> ");
+        String local = lerTexto(scanner, "Local> ");
+
+        System.out.println(fn.adicionaLocal(filme, local));
+    }
+
+    /**
+     * Remove um local de um filme.
+     *
+     * @param fn      O sistema FilmNow a ser manipulado.
+     * @param scanner Scanner para capturar o filme e o local.
+     */
+    private static void removeLocal(FilmNow fn, Scanner scanner) {
+        int filme = lerInteiro(scanner, "\nFilme> ");
+        String local = lerTexto(scanner, "Local> ");
+
+        System.out.println(fn.removeLocal(filme, local));
+    }
+
+    /**
      * Formata um filme para impressão.
      *
      * @param posicao A posição do filme (que é exibida).
@@ -223,8 +259,7 @@ public class MainFilmNow {
      * @param scanner Scanner para pedir informações do filme.
      */
     private static void adicionaFilme(FilmNow fn, Scanner scanner) {
-
-            int posicao = lerInteiro(scanner, "\nPosição> ");
+        int posicao = lerInteiro(scanner, "\nPosição> ");
         String nome = lerTexto(scanner, "Nome> ");
         String ano = lerTexto(scanner, "Ano> ");
         String local = lerTexto(scanner, "Local> ");
